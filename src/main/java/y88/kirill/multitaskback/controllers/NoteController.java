@@ -28,7 +28,7 @@ public class NoteController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/user")
+    @GetMapping("/userId")
     public List<NoteDTO> getAllByUserId(@RequestParam Long userId) {
         return noteService.findAllByUser(userId)
                 .stream()
