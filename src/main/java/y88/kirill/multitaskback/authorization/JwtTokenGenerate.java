@@ -22,7 +22,7 @@ public class JwtTokenGenerate {
         claims.put("id", userDTO.getId());
         claims.put("sub", userDTO.getUsername());
 
-        System.out.println("generate token =" + userDTO.getUserRoleString());
+
 
         String token = Jwts.builder()
                 .setClaims(claims)
@@ -30,6 +30,7 @@ public class JwtTokenGenerate {
                 .signWith(SignatureAlgorithm.HS256,secret)
                 .compact();
 
+        System.out.println("generate token =" + token);
         return "Bearer " + token;
     }
 
