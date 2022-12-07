@@ -22,7 +22,7 @@ public class Note {
     @Column(name = "content")
     private String content;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
 

@@ -1,13 +1,8 @@
 package y88.kirill.multitaskback.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import y88.kirill.multitaskback.dtos.NoteDTO;
-
-import y88.kirill.multitaskback.models.Note;
 import y88.kirill.multitaskback.services.NoteService;
 
 import java.util.List;
@@ -36,7 +31,19 @@ public class NoteController {
                 .collect(Collectors.toList());
     }
 
+    @PostMapping("/save")
+    public void insertNote(@RequestBody NoteDTO noteDTO){
+        if(noteDTO.getId()==-1){
+        noteService.insertNote(noteDTO);
+        }else {
+            noteService.updateNote((noteDTO));
+        }
+    }
 
+    @DeleteMapping("/delete")
+    public void deleteNote(@RequestParam Long noteId){
+        noteService.deleteNoteById(noteId);
+    }
 
 
 }

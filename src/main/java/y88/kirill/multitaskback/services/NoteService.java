@@ -2,6 +2,7 @@ package y88.kirill.multitaskback.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import y88.kirill.multitaskback.dtos.NoteDTO;
 import y88.kirill.multitaskback.models.Note;
 import y88.kirill.multitaskback.models.User;
 import y88.kirill.multitaskback.repositories.NoteRepository;
@@ -31,9 +32,28 @@ public class NoteService {
     }
 
     public List<Note> findAllByUser(String login){
-        User user = userRepository.findByLogin(login).get();
+        User user = userRepository.findByLogin(login).get();//todo обработать
         return noteRepository.findAllByUser(user);
     }
 
+    public int insertNote(NoteDTO noteDTO){
+       return noteRepository.insertNote(noteDTO.getTitle(), noteDTO.getContent(),  noteDTO.getUserId());
+    }
+
+    public int updateNote(NoteDTO noteDTO){
+        return noteRepository.updateNote(noteDTO.getTitle(), noteDTO.getContent(),  noteDTO.getId());
+    }
+
+    public void deleteNoteById(Long noteId){
+        noteRepository.deleteById(noteId);
+    }
+
+    public Note convertToNoteFromDTO (NoteDTO noteDTO){
+        Note note = new Note();
+        note.setId(noteDTO.getId());
+        note.setTitle(noteDTO.getTitle());
+        note.setContent(noteDTO.getContent());
+        return note;
+    }
 
 }
