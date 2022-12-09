@@ -11,6 +11,7 @@ import y88.kirill.multitaskback.authorization.JwtTokenGenerate;
 import y88.kirill.multitaskback.dtos.UserDTO;
 import y88.kirill.multitaskback.dtos.authorization.JwtRequestDTO;
 import y88.kirill.multitaskback.dtos.authorization.JwtResponseDTO;
+import y88.kirill.multitaskback.exceptions.MTResponse;
 import y88.kirill.multitaskback.models.User;
 import y88.kirill.multitaskback.services.UserService;
 
@@ -27,7 +28,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody JwtRequestDTO jwtRequestDTO){
-        System.out.printf("\n login =%s  password =%s \n", jwtRequestDTO.getLogin(), jwtRequestDTO.getPassword());
+        System.out.printf("\n logGin =%s  passWword =%s \n", jwtRequestDTO.getLogin(), jwtRequestDTO.getPassword());
 //     try {
 //         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequestDTO.getLogin(), jwtRequestDTO.getPassword()));
 //     }catch (BadCredentialsException e){
@@ -35,6 +36,7 @@ public class AuthController {
 //     }
 
         UserDTO userDTO = userService.loadUserByLoginAndPassword(jwtRequestDTO.getLogin(), jwtRequestDTO.getPassword());
+        System.out.println(" \n UserDTO login=" + userDTO.getLogin());
         String token = jwtTokenGenerate.generateToken(userDTO);
         return ResponseEntity.ok(new JwtResponseDTO(token, userDTO));
     }
@@ -42,15 +44,18 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody UserDTO userDTO){
         if(userService.existsUserByLogin(userDTO.getLogin())){
-            return ResponseEntity.of(Optional.of(new ResponseEntity(HttpStatus.BAD_REQUEST)));
+            return ResponseEntity.of(Optional.of(new MTResponse(HttpStatus.BAD_REQUEST.value(), "Пользователь с таким login уже существует")));
         }
         if(userService.existsUserByEmail(userDTO.getEmail())){
-            return ResponseEntity.of(Optional.of(new ResponseEntity(HttpStatus.BAD_REQUEST)));
+            return ResponseEntity.of(Optional.of(new MTResponse(HttpStatus.BAD_REQUEST.value(), "Пользователь с таким email уже существует")));
         }
-
+        userDTO.setUserRoleString("ROLE_USER");
         User user = userService.convertToUserFromDTO(userDTO);
         userService.saveUser(user);
-        return ResponseEntity.ok(new UserDTO(user));
+        UserDTO userDTOForToken = userService.loadUserByLoginAndPassword(userDTO.getUsername(), userDTO.getPassword());
+        String token = jwtTokenGenerate.generateToken(userDTOForToken);
+
+        return ResponseEntity.ok(new JwtResponseDTO(token, userDTOForToken));
     }
 
 

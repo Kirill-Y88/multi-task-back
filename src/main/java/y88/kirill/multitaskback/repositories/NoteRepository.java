@@ -35,4 +35,7 @@ public interface NoteRepository extends JpaRepository<Note,Long> {
 
     void deleteById(Long id);
 
+    @Query(value = "SELECT * FROM notes WHERE user_id = :userId ORDER BY id desc LIMIT 1", nativeQuery = true)
+    Optional<Note> findLastNoteByUser(@Param("userId")Long userId);
+
 }

@@ -61,11 +61,12 @@ public class UserService implements UserDetailsService {
     //реализация этапа аутентификации и авторизации по ЛОГИНУ
     @Override
     public UserDTO loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new UserDTO(findByLogin(username).orElseThrow(()-> new ResourceNotFoundException("Пользователь с данным login роли не найден")));
+        return new UserDTO(findByLogin(username).orElseThrow(()-> new ResourceNotFoundException("!!@ Пользователь с данным login  не найден ")));
     }
 
     public UserDTO loadUserByLoginAndPassword(String username, String password) throws UsernameNotFoundException {
-        User user = findByLogin(username).orElseThrow(()-> new ResourceNotFoundException("Пользователь с данным login роли не найден"));
+        User user = findByLogin(username).orElseThrow(()-> new ResourceNotFoundException("Пользователь с данным login не найден"));
+       // User user = findByLogin(username).get();
         System.out.println("роли юзера из сервиса = " + user.getUserRole().getTitle());
         if(user!= null){
             if(passwordEncoder.matches(password, user.getPassword())){

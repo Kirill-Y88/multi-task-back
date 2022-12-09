@@ -36,8 +36,9 @@ public class NoteService {
         return noteRepository.findAllByUser(user);
     }
 
-    public int insertNote(NoteDTO noteDTO){
-       return noteRepository.insertNote(noteDTO.getTitle(), noteDTO.getContent(),  noteDTO.getUserId());
+    public long insertNote(NoteDTO noteDTO){
+        noteRepository.insertNote(noteDTO.getTitle(), noteDTO.getContent(),  noteDTO.getUserId());
+       return findLastNoteByUser(noteDTO.getUserId()).getId();
     }
 
     public int updateNote(NoteDTO noteDTO){
@@ -46,6 +47,10 @@ public class NoteService {
 
     public void deleteNoteById(Long noteId){
         noteRepository.deleteById(noteId);
+    }
+
+    public Note findLastNoteByUser(Long userId){
+       return noteRepository.findLastNoteByUser(userId).get();
     }
 
     public Note convertToNoteFromDTO (NoteDTO noteDTO){

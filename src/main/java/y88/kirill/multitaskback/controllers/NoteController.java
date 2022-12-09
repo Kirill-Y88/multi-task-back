@@ -1,8 +1,11 @@
 package y88.kirill.multitaskback.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import y88.kirill.multitaskback.dtos.NoteDTO;
+import y88.kirill.multitaskback.exceptions.MTResponse;
 import y88.kirill.multitaskback.services.NoteService;
 
 import java.util.List;
@@ -32,12 +35,17 @@ public class NoteController {
     }
 
     @PostMapping("/save")
-    public void insertNote(@RequestBody NoteDTO noteDTO){
+    public ResponseEntity<?> insertNote(@RequestBody NoteDTO noteDTO){
         if(noteDTO.getId()==-1){
-        noteService.insertNote(noteDTO);
+        long newNoteId = noteService.insertNote(noteDTO);
+            return ResponseEntity.ok(new MTResponse(newNoteId, "Add new note"));
         }else {
             noteService.updateNote((noteDTO));
+            return ResponseEntity.ok(new MTResponse(-1L, "update note"));
         }
+
+
+
     }
 
     @DeleteMapping("/delete")
