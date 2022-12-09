@@ -47,7 +47,7 @@ public class UserController {
         return new UserDTO(userService.findById(id).orElseThrow(()-> new ResourceNotFoundException("Пользователь с данным id не найден")));
     }
 
-    ////TEST
+    //TEST
     @GetMapping("/id")
     public UserDTO getUserById2(@RequestParam  Long id){
         return new UserDTO(userService.findById(id).orElseThrow(()-> new ResourceNotFoundException("Пользователь с данным id не найден")));
