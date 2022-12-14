@@ -21,3 +21,14 @@ CREATE TABLE notes(
                            content varchar(2000),
                            user_id integer REFERENCES users(id)
 );
+
+DROP TABLE IF EXISTS messages;
+CREATE TABLE messages(
+                      id bigserial PRIMARY KEY,
+                      user_id_from integer REFERENCES users(id),
+                      user_id_to integer REFERENCES users(id),
+                      msg varchar(2000),
+                      created_at timestamp default current_timestamp,
+                      downloaded boolean default false,
+                      read boolean default false
+);

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -31,5 +32,11 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private UserRole userRole;
+
+    @OneToMany(mappedBy = "userFrom")
+    private List<Message> sendMsg;
+
+    @OneToMany(mappedBy = "userTo")
+    private List<Message> receiveMsg;
 
 }

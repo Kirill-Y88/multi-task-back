@@ -27,7 +27,9 @@ public class NoteService {
     }
 
     public List<Note> findAllByUser(Long userId){
-        User user = userRepository.findById(userId).get();
+      //  User user = userRepository.findById(userId).get();
+        User user = new User();
+        user.setId(userId);
         return noteRepository.findAllByUser(user);
     }
 

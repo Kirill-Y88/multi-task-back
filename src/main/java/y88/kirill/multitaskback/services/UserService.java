@@ -23,6 +23,8 @@ public class UserService implements UserDetailsService {
     private final UserRoleRepository userRoleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    private final MessageService messageService;
+
     public List<User> findAll(){
         return userRepository.findAll();
     }
@@ -75,6 +77,10 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
+
+//    public List<UserDTO> findAllUsersSendMsgToUser(Long user_id_from, Long user_id_to ){
+//
+//    }
 
     public User convertToUserFromDTO(UserDTO userDTO){
         User user = new User();
