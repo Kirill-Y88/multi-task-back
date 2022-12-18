@@ -11,6 +11,7 @@ import y88.kirill.multitaskback.models.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -64,7 +65,23 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
                                     @Param("user_id_that") Long user_id_that);
 
 
+    //поиск всех отправленных и полученных юзером сообщений для одного чата
+    @Query(value =
+            "(SELECT * FROM MESSAGES where user_id_to = :user_id_this and user_id_from = :user_id_that  union SELECT * FROM MESSAGES where user_id_from = :user_id_this and user_id_to = :user_id_that)",
+            nativeQuery = true)
+    List<Message> findAllByUserChat2222222(@Param("user_id_this") Long user_id_this,
+                                    @Param("user_id_that") Long user_id_that);
 
+    @Query(value =
+            "(SELECT * FROM MESSAGES where user_id_from = :user_id_this  order by id desc limit 1)",
+            nativeQuery = true)
+    Optional<Message> findLastMsgUserIdFrom(@Param("user_id_this") Long user_id_this);
+
+    @Query(value =
+            "(SELECT * FROM MESSAGES where user_id_to = :user_id_this and user_id_from = :user_id_that  and read = false)",
+            nativeQuery = true)
+    List<Message> findAllDontReadByUserChat(@Param("user_id_this") Long user_id_this,
+                                            @Param("user_id_that") Long user_id_that);
 
 
 }

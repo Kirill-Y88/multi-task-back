@@ -85,9 +85,9 @@ public class MessageController {
     }
 
     @PostMapping("/sendMsg")
-    public void sendMsg (@RequestBody MessageDTO messageDTO){
+    public MessageDTO sendMsg (@RequestBody MessageDTO messageDTO){
         System.out.println("---" + messageDTO.getUserFromId() + messageDTO.getUserToId() + messageDTO.getMsg());
-        messageService.insertMessage(messageDTO.getUserFromId(), messageDTO.getUserToId(), messageDTO.getMsg());
+        return new MessageDTO(messageService.insertMessage(messageDTO.getUserFromId(), messageDTO.getUserToId(), messageDTO.getMsg()).get());
     }
 
     @PostMapping("/updateMsg")
@@ -97,8 +97,8 @@ public class MessageController {
 
     @PostMapping("/updateMsgList")
     public void updateMsgList (@RequestBody List<MessageDTO> messageDTOList){
-        for (MessageDTO messageDTO: messageDTOList
-             ) {
+        for (MessageDTO messageDTO: messageDTOList) {
+            System.out.printf("id =%d , downloaded = %b, read = %b", messageDTO.getId(), messageDTO.getDownloaded(), messageDTO.getRead());
             messageService.updateMessage(messageDTO.getId(), messageDTO.getDownloaded(), messageDTO.getRead());
         }
     }
@@ -193,6 +193,13 @@ public class MessageController {
     @GetMapping("/userChatMessages")
     public List<MessageDTO> getAllMessagesChat(@RequestParam Long userIdThis,@RequestParam Long userIdThat ){
         return   messageService.findAllByUserChat(userIdThis, userIdThat ).stream()
+                .map(MessageDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/userChatDontReadMessages")
+    public List<MessageDTO> getAllDontReadByUserChat(@RequestParam Long userIdThis,@RequestParam Long userIdThat ){
+        return   messageService.findAllDontReadByUserChat(userIdThis, userIdThat ).stream()
                 .map(MessageDTO::new)
                 .collect(Collectors.toList());
     }

@@ -7,6 +7,7 @@ import y88.kirill.multitaskback.models.Message;
 import y88.kirill.multitaskback.repositories.MessageRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +29,9 @@ public class MessageService {
         return messageRepository.findAllByUserToId(user_id_to);
     }
 
-    public int insertMessage( Long user_id_from, Long user_id_to, String msg){
-        return messageRepository.insertMessage(user_id_from,user_id_to,msg);
+    public Optional<Message> insertMessage(Long user_id_from, Long user_id_to, String msg){
+        int operation = messageRepository.insertMessage(user_id_from,user_id_to,msg);
+        return messageRepository.findLastMsgUserIdFrom(user_id_from);
     }
 
     public int updateMessage( Long id, Boolean downloaded, Boolean read){
@@ -46,6 +48,10 @@ public class MessageService {
 
     public List<Message> findAllByUserChat(Long user_id_this, Long user_id_that){
         return messageRepository.findAllByUserChat(user_id_this,user_id_that);
+    }
+
+    public List<Message> findAllDontReadByUserChat(Long user_id_this, Long user_id_that){
+        return messageRepository.findAllDontReadByUserChat(user_id_this,user_id_that);
     }
 
 }
