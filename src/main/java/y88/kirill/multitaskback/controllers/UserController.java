@@ -53,8 +53,8 @@ public class UserController {
         return new UserDTO(userService.findById(id).orElseThrow(()-> new ResourceNotFoundException("Пользователь с данным id не найден")));
     }
 
-    @GetMapping("/login/{login}")
-    public UserDTO getUserByLogin(@PathVariable String login){
+    @GetMapping("/login")
+    public UserDTO getUserByLogin(@RequestParam String login){
         return new UserDTO(userService.findByLogin(login).orElseThrow(()-> new ResourceNotFoundException("Пользователь с данным login не найден")));
     }
 
