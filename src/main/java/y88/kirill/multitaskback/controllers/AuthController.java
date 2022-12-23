@@ -44,10 +44,14 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody UserDTO userDTO){
         if(userService.existsUserByLogin(userDTO.getLogin())){
-            return ResponseEntity.of(Optional.of(new MTResponse(HttpStatus.BAD_REQUEST.value(), "Пользователь с таким login уже существует")));
+            System.out.println("Пользователь с таким login уже существует");
+            //return ResponseEntity.of(Optional.of(HttpStatus.valueOf(501)));
+            return ResponseEntity.badRequest().body(new MTResponse(HttpStatus.BAD_REQUEST.value(), "Пользователь с таким login уже существует"));
+           // return ResponseEntity.of(Optional.of(new MTResponse(HttpStatus.BAD_REQUEST.value(), "Пользователь с таким login уже существует")));
         }
         if(userService.existsUserByEmail(userDTO.getEmail())){
-            return ResponseEntity.of(Optional.of(new MTResponse(HttpStatus.BAD_REQUEST.value(), "Пользователь с таким email уже существует")));
+            System.out.println("Пользователь с таким email уже существует");
+            return ResponseEntity.badRequest().body(new MTResponse(HttpStatus.BAD_REQUEST.value(), "Пользователь с таким email уже существует"));
         }
         userDTO.setUserRoleString("ROLE_USER");
         User user = userService.convertToUserFromDTO(userDTO);
