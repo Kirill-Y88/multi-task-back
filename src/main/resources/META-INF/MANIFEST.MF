@@ -1,0 +1,2 @@
+Manifest-Version: 1.0
+Main-Class: y88.kirill.multitaskback.MultiTaskBackApplication

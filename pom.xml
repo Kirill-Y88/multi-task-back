@@ -11,10 +11,12 @@
     <groupId>com.example</groupId>
     <artifactId>multi-task-back</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>multi-task-back</name>
     <description>multi-task-back</description>
     <properties>
         <java.version>11</java.version>
+<!--        <start-class>y88.kirill.multitaskback.MultiTaskBackApplication</start-class>-->
     </properties>
     <dependencies>
         <dependency>
@@ -85,8 +87,16 @@
             <version>9.8.3</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-maven-plugin -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>2.7.7</version>
+        </dependency>
 
-<!--        <dependency>-->
+
+
+        <!--        <dependency>-->
 <!--            <groupId>org.flywaydb</groupId>-->
 <!--            <artifactId>flyway-core</artifactId>-->
 <!--            <version>8.5.13</version>-->
@@ -107,6 +117,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <mainClass>y88.kirill.multitaskback.MultiTaskBackApplication</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

@@ -28,7 +28,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                        request -> {
                              var cors = new CorsConfiguration();
                              cors.setAllowedOrigins(
-                                   List.of("http://localhost:8083/mt", "*"));
+                              //     List.of("http://localhost:8083/mt", "*"));
+                              //       List.of("http://51.250.20.10:8083/mt", "*"));
+                                     List.of("http://51.250.20.10:8083/mt", "*", "http://localhost:8083/mt", "*"));
                              cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                              cors.setAllowedHeaders(List.of("*", "x-requested-with"));
                              cors.setMaxAge(3600L);
